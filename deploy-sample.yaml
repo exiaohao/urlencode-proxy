@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: urlencode-proxy
+  namespace: istio-system
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: urlencode-proxy
+        version: v1
+    spec:
+      containers:
+      - image: reg.qiniu.com/hao/urlencode-proxy:1.0
+        imagePullPolicy: IfNotPresent
+        name: urlencode-proxy
+        env:
+        - name: LISTEN
+          value: "8080"
+        - name: PROXY
+          value: "172.16.47.26:8080"
+        ports:
+        - containerPort: 8080
