@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"net/http/httputil"
+	"net/url"
 	"os"
 )
 
@@ -15,7 +16,7 @@ func main() {
 			u := req.URL
 			u.Scheme = "http"
 			u.Host = targetHost
-			u.RawQuery = u.Query().Encode()
+			u.RawQuery = url.QueryEscape(u.RawQuery)
 		},
 	}
 	http.HandleFunc("/", proxy.ServeHTTP)
